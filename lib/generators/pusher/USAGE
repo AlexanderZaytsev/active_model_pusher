@@ -1,0 +1,8 @@
+Description:
+    Generates a pusher for the give resource
+
+Example:
+    rails generate pusher Post created updated destroyed
+
+    This will create:
+        app/pushers/post_pusher.rb
