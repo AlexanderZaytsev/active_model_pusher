@@ -169,7 +169,7 @@ rails generate pusher Post created published
 
 Will result in:
 
-```
+```ruby
 # app/pushers/post_pusher.rb
 class PostPusher < ActiveModel::Pusher
   events :created, :updated, :destroyed
