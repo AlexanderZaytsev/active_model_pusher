@@ -1,6 +1,6 @@
 # Active Model Pusher
 
-`ActiveModel::Pusher` makes using [`Pusher`](https://github.com/pusher/pusher-gem) in your app much easier.
+`ActiveModel::Pusher` makes using [Pusher](https://github.com/pusher/pusher-gem) in your app much easier.
 The purpose of this gem is to use the convention over configuration principle to reduce amount of code needed to interact with Pusher.
 
 ## Basic Usage
