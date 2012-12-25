@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Alexander Zaytsev"]
   gem.email         = ["alexander@say26.com"]
   gem.description   = %q{Making it easy to use Pusher with your models}
-  gem.summary       = %q{Push with one line of code!}
+  gem.summary       = %q{Push your models with Pusher easily}
   gem.homepage      = "https://github.com/AlexanderZaytsev/active_model_pusher"
 
   gem.files         = `git ls-files`.split($\)
