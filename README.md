@@ -13,17 +13,19 @@ PostPusher.new(@post).push!
 This will push the following json to Pusher:
 
 ```json
+{
 channel: 'posts',
 event: 'created',
 data: { id: 1 }
+}
 ```
 Pusher operates with 4 things: channel, event, data and socket it. They will be discussed below.
 
 ## Channels
 A `channel` value for a `Post` model will be one of the following:
 
-1. `posts` - when a record has just been created
-2. `posts-1` - for any other event: `updated`, `destroyed`, etc
+1. `posts` when a record has just been created
+2. `posts-1` for any other event: `updated`, `destroyed`, etc
 
 ### Customizing channels
 Sometimes you might want to have a general channel name -  like `dashboard` - to which you will be pushing several models.
@@ -31,6 +33,7 @@ Sometimes you might want to have a general channel name -  like `dashboard` - to
 There are two ways to do that.
 
 * Define a `channel` method in your model:
+
 ```ruby
 class Post
   def channel
@@ -66,7 +69,7 @@ def publish
   PostPusher.new(@post).push! :published
 end
 ```
-will result in InvalidEventError: 'Event :published is not allowed'.
+will result in `InvalidEventError: 'Event :published is not allowed'`.
 
 
 The three default events can be guessed by the gem automatically, you don't actually have to specify them:
@@ -90,9 +93,11 @@ end
 
 This will produce the following (given you whitelisted the `published` event in your pusher):
 ```json
+{
 channel: 'posts-1',
 event: 'published',
 data: { id: 1 }
+}
 ```
 
 ### Customizing events
@@ -114,7 +119,7 @@ class CommentPusher < ActiveModel::Pusher
 end
 ```
 
-When we push two different models into the general channel:
+We then push two different models into the general `dashboard` channel:
 ```ruby
 @post = Post.create
 @comment = Comment.create
@@ -134,7 +139,6 @@ class PostPusher < ActiveModel::Pusher
   end
 end
 ```
-This will format your events like `post-created` or `post-published`.
 
 ## Data
 The `data` method simply serializes your record.
@@ -165,6 +169,15 @@ end
 ## Creating a new pusher
 ```
 rails generate pusher Post created published
+```
+
+Will result in:
+
+```
+# app/pushers/post_pusher.rb
+class PostPusher < ActiveModel::Pusher
+  events :created, :updated, :destroyed
+end
 ```
 
 ## Notice
