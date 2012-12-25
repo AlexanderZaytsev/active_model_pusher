@@ -1,6 +1,6 @@
 # Active Model Pusher
 
-`ActiveModel::Pusher` makes using `Pusher` in your app much easier.
+`ActiveModel::Pusher` makes using [`Pusher`](https://github.com/pusher/pusher-gem) in your app much easier.
 The purpose of this gem is to use the convention over configuration principle to reduce amount of code needed to interact with Pusher.
 
 ## Basic Usage
@@ -12,12 +12,10 @@ PostPusher.new(@post).push!
 
 This will push the following json to Pusher:
 
-```json
-{
+```
 channel: 'posts',
 event: 'created',
 data: { id: 1 }
-}
 ```
 Pusher operates with 4 things: channel, event, data and socket it. They will be discussed below.
 
@@ -92,12 +90,10 @@ end
 ```
 
 This will produce the following (given you whitelisted the `published` event in your pusher):
-```json
-{
+```
 channel: 'posts-1',
 event: 'published',
 data: { id: 1 }
-}
 ```
 
 ### Customizing events
