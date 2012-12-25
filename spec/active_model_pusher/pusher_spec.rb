@@ -19,7 +19,7 @@ describe ActiveModel::Pusher do
       alien = Alien.new
       pusher = AlienPusher.new(alien)
       socket_id = 1234
-      Pusher.should_receive(:trigger).with('alien-channel', 'alien-created', alien.as_json, socket_id)
+      Pusher.should_receive(:trigger).with('aliens', 'created', alien.as_json, socket_id)
 
       pusher.push!(:created, socket_id)
     end
@@ -28,7 +28,7 @@ describe ActiveModel::Pusher do
       alien = CreatedAlien.new
       pusher = AlienPusher.new(alien)
 
-      Pusher.should_receive(:trigger).with('alien-channel', 'created-alien-created', alien.as_json, nil)
+      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, nil)
 
       pusher.push!
     end
@@ -38,36 +38,26 @@ describe ActiveModel::Pusher do
       pusher = AlienPusher.new(alien)
       socket_id = 1234
 
-      Pusher.should_receive(:trigger).with('alien-channel', 'created-alien-created', alien.as_json, socket_id)
+      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, socket_id)
 
       pusher.push! socket_id
     end
 
-    it 'allows overriding the `event_name` method' do
+    it 'allows overriding the `event` and `channel` method' do
       alien = Alien.new
       pusher = Class.new(AlienPusher) do
-        def event_name(event)
-          "custom-event"
+        def event(event)
+          "custom-#{event}"
         end
-      end.new(alien)
 
-      Pusher.should_receive(:trigger).with('alien-channel', 'custom-event', alien.as_json, nil)
-
-      pusher.push! :created
-    end
-
-    it 'allows overriding the `channel` method' do
-      alien = Alien.new
-      pusher = Class.new(AlienPusher) do
-        def channel
+        def channel(event)
           "custom-channel"
         end
       end.new(alien)
 
-      Pusher.should_receive(:trigger).with('custom-channel', 'alien-created', alien.as_json, nil)
+      Pusher.should_receive(:trigger).with('custom-channel', 'custom-created', alien.as_json, nil)
 
       pusher.push! :created
     end
-
   end
 end

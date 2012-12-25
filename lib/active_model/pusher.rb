@@ -10,11 +10,9 @@ module ActiveModel
       end
     end
 
-
     def initialize(record)
       @record = record
     end
-
 
     def push!(event_or_socket_id = nil, socket_id = nil)
       event, socket_id = parse_push_params(event_or_socket_id, socket_id)
@@ -23,11 +21,33 @@ module ActiveModel
 
       events.validate! event
 
-      ::Pusher.trigger channel, event_name(event), json, socket_id
+      ::Pusher.trigger channel(event), event(event), data, socket_id
     end
 
     private
+      def events
+        self._events
+      end
+
+      def record
+        @record
+      end
+
+      def channel(event)
+        @channel ||= RecordChannel.new(record, event).channel
+      end
+
+      def event(event)
+        event.to_s.underscore.dasherize
+      end
+
+      def data
+        @json ||= RecordSerializer.new(record).json!
+      end
+
       def parse_push_params(event_or_socket_id = nil, socket_id = nil)
+        # Tell me if there is a better way of doing this
+
         if event_or_socket_id && socket_id
           event = event_or_socket_id
         end
@@ -43,25 +63,6 @@ module ActiveModel
         [event, socket_id]
       end
 
-      def events
-        self._events
-      end
-
-      def record
-        @record
-      end
-
-      def channel
-        @channel ||= RecordChannel.new(record).channel!
-      end
-
-      def event_name(event)
-        @formatted_event ||= EventFormatter.new(record, event).event
-      end
-
-      def json
-        @json ||= RecordSerializer.new(record).json!
-      end
 
   end
 end

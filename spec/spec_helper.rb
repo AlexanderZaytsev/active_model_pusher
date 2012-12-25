@@ -11,8 +11,8 @@ class AlienPusher < ActiveModel::Pusher
 end
 
 class Alien
-  def channel
-    'alien-channel'
+  def id
+    1
   end
 
   def as_json
@@ -21,10 +21,6 @@ class Alien
 end
 
 class ActiveModelAlien < Alien
-  def as_json
-    { id: 1 }
-  end
-
   def previous_changes
     []
   end
