@@ -1,7 +1,7 @@
 # Active Model Pusher
 
 `ActiveModel::Pusher` makes using [Pusher](https://github.com/pusher/pusher-gem) in your app much easier.
-The purpose of this gem is to use the convention over configuration principle to reduce amount of code needed to interact with Pusher.
+The gem allows you not to care about naming channels, events and serializing records. `ActiveModel::Pusher` will do it for you!
 
 ## Basic Usage
 ```ruby
@@ -146,7 +146,7 @@ If `active_model_serializers` is not used in your application, it will fallback 
 But seriously, just use `active_model_serializers`.
 
 ## Params
-You can specify the params when calling the `push!` method:
+You can specify additional params when calling the `push!` method:
 
 ```ruby
 def create
