@@ -162,6 +162,13 @@ def publish
   PostPusher.new(@post).push! :published, { socket_id: params[:socket_id] }
 end
 ```
+A more fancier way of doing the same:
+```ruby
+def publish
+  @post = Post.publish!
+  PostPusher.new(@post).push! :published, params.slice(:socket_id)
+end
+```
 
 ## Creating a new pusher
 ```
