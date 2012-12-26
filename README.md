@@ -3,6 +3,8 @@
 `ActiveModel::Pusher` makes using [Pusher](https://github.com/pusher/pusher-gem) in your app much easier.
 The gem allows you not to care about naming channels, events and serializing records. `ActiveModel::Pusher` will do it for you!
 
+Note: to use this gem you need Pusher already working in your app.
+
 ## Basic Usage
 ```ruby
 @post = Post.create
