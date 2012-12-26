@@ -14,14 +14,14 @@ module ActiveModel
       @record = record
     end
 
-    def push!(event_or_socket_id = nil, socket_id = nil)
-      event, socket_id = parse_push_params(event_or_socket_id, socket_id)
+    def push!(event_or_params = nil, params = {})
+      event, params = parse_push_params(event_or_params, params)
 
       event ||= RecordEventRecognizer.new(record).event
 
       events.validate! event
 
-      ::Pusher.trigger channel(event), event(event), data, { socket_id: socket_id }
+      ::Pusher.trigger channel(event), event(event), data, params
     end
 
     private
@@ -45,22 +45,25 @@ module ActiveModel
         @json ||= RecordSerializer.new(record).json!
       end
 
-      def parse_push_params(event_or_socket_id = nil, socket_id = nil)
+      def parse_push_params(event_or_params = nil, params = {})
         # Tell me if there is a better way of doing this
 
-        if event_or_socket_id && socket_id
-          event = event_or_socket_id
+        if event_or_params && params
+          event = event_or_params
+          params = params
         end
 
-        if event_or_socket_id && socket_id.nil?
-          if events.validate(event_or_socket_id)
-            event = event_or_socket_id
+        if event_or_params && params.none?
+          if events.validate(event_or_params)
+            event = event_or_params
+            params = {}
           else
-            socket_id = event_or_socket_id
+            event = nil
+            params = event_or_params
           end
         end
 
-        [event, socket_id]
+        [event, params]
       end
 
 

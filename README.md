@@ -17,7 +17,7 @@ channel: 'posts',
 event: 'created',
 data: { id: 1 }
 ```
-Pusher operates with 4 things: channel, event, data and socket it. They will be discussed below.
+The original Pusher gem needs 4 things to be triggered: `channel`, `event`, `data` and optional `params`. They will be discussed below.
 
 ## Channels
 A `channel` value for a `Post` model will be one of the following:
@@ -145,13 +145,13 @@ If `active_model_serializers` is not used in your application, it will fallback 
 
 But seriously, just use `active_model_serializers`.
 
-## Socket id
-You can specify the socket id when calling the `push!` method:
+## Params
+You can specify the params when calling the `push!` method:
 
 ```ruby
 def create
   @post = Post.create
-  PostPusher.new(@post).push! params[:socket_id]
+  PostPusher.new(@post).push! { socket_id: params[:socket_id] }
 end
 ```
 
@@ -159,9 +159,10 @@ If you need to specify an event as well, it should go first:
 ```ruby
 def publish
   @post = Post.publish!
-  PostPusher.new(@post).push! :published, params[:socket_id]
+  PostPusher.new(@post).push! :published, { socket_id: params[:socket_id] }
 end
 ```
+
 ## Creating a new pusher
 ```
 rails generate pusher Post created published

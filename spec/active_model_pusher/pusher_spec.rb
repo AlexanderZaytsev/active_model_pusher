@@ -7,41 +7,41 @@ describe ActiveModel::Pusher do
     before do
       @pusher = AlienPusher.new(Class.new)
       @event = :created
-      @socket_id = 1234
+      @params = { socket_id: 1234 }
     end
 
-    it { @pusher.send(:parse_push_params, @event).should eq([@event, nil]) }
-    it { @pusher.send(:parse_push_params, @event, @socket_id).should eq([@event, @socket_id]) }
-    it { @pusher.send(:parse_push_params, @socket_id).should eq([nil, @socket_id]) }
+    it { @pusher.send(:parse_push_params, @event).should eq([@event, {}]) }
+    it { @pusher.send(:parse_push_params, @event, @params).should eq([@event, @params]) }
+    it { @pusher.send(:parse_push_params, @params).should eq([nil, @params]) }
   end
 
   describe '#push!' do
-    it 'can be called with the event and socket_id' do
+    it 'can be called with the event and params' do
       alien = Alien.new
       pusher = AlienPusher.new(alien)
-      socket_id = 1234
-      Pusher.should_receive(:trigger).with('aliens', 'created', alien.as_json, socket_id)
+      params = { socket_id: 1234 }
+      Pusher.should_receive(:trigger).with('aliens', 'created', alien.as_json, params)
 
-      pusher.push!(:created, socket_id)
+      pusher.push!(:created, params)
     end
 
     it 'can be called without the event' do
       alien = CreatedAlien.new
       pusher = AlienPusher.new(alien)
 
-      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, nil)
+      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, {})
 
       pusher.push!
     end
 
-    it 'can be called with socket_id only' do
+    it 'can be called with params only' do
       alien = CreatedAlien.new
       pusher = AlienPusher.new(alien)
-      socket_id = 1234
+      params = { socket_id: 1234 }
 
-      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, socket_id)
+      Pusher.should_receive(:trigger).with('created-aliens', 'created', alien.as_json, params)
 
-      pusher.push! socket_id
+      pusher.push! params
     end
 
     it 'allows overriding the `event` and `channel` method' do
@@ -56,7 +56,7 @@ describe ActiveModel::Pusher do
         end
       end.new(alien)
 
-      Pusher.should_receive(:trigger).with('custom-channel', 'custom-created', alien.as_json, nil)
+      Pusher.should_receive(:trigger).with('custom-channel', 'custom-created', alien.as_json, {})
 
       pusher.push! :created
     end

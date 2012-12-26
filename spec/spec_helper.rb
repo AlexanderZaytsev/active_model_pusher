@@ -1,7 +1,7 @@
 require 'active_model_pusher'
 
 class Pusher
-  def self.trigger(channel, event, json, socket_id = nil)
+  def self.trigger(channel, event, json, params = {})
     true
   end
 end

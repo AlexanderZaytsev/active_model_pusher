@@ -19,9 +19,18 @@ module ActiveModel
       end
 
       def validate(event)
+        # Allow strings and symbols only
+        # Return true if there are no whitelisted events
+
+        return false unless event.respond_to? :to_sym
+
         return true unless @events.any?
 
         @events.include?(event)
+      end
+
+      def any?
+        @events.any?
       end
 
       def validate!(event)
