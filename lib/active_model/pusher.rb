@@ -42,7 +42,7 @@ module ActiveModel
       end
 
       def data
-        @json ||= RecordSerializer.new(record).json!
+        @data ||= RecordSerializer.new(record).serialize!
       end
 
       def parse_push_params(event_or_params = nil, params = {})

@@ -17,7 +17,7 @@ module ActiveModel
         @record = record
       end
 
-      def json!
+      def serialize!
         raise RecordCannotBeSerializedError.new(@record) unless can_be_serialized?
 
         serializer.as_json
@@ -26,7 +26,8 @@ module ActiveModel
       private
         def serializer
           if @record.respond_to?(:active_model_serializer)
-            @record.active_model_serializer
+            serializer = @record.active_model_serializer
+            serializer.new @record
           elsif @record.respond_to?(:as_json)
             @record
           end

@@ -30,13 +30,15 @@ end
 
 class ActiveModelAlienWithSerializer < ActiveModelAlien
   class ActiveModelSerializer
+    def initialize(record)
+    end
     def as_json
       { id: 2 }
     end
   end
 
   def active_model_serializer
-    ActiveModelSerializer.new
+    ActiveModelSerializer
   end
 end
 
