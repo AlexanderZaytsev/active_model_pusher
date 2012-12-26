@@ -9,7 +9,7 @@ module ActiveModel
         end
 
         def to_s
-          "Event `#{event}` is not allowed. Add it into your pusher's `events` class attribute"
+          "Event `#{@event}` is not allowed. Add it into your pusher's `events` class attribute"
         end
       end
 
@@ -19,6 +19,8 @@ module ActiveModel
       end
 
       def validate(event)
+        return true unless @events.any?
+
         @events.include?(event)
       end
 

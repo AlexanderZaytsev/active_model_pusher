@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ActiveModel::Pusher do
 
+
   describe '#parse_push_params' do
     before do
       @pusher = AlienPusher.new(Class.new)

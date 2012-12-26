@@ -2,11 +2,11 @@ module ActiveModel
   class Pusher
 
     class_attribute :_events
-    self._events = []
+    self._events = nil
 
     class << self
       def events(*events)
-        self._events = Events.new events
+        self._events = events
       end
     end
 
@@ -26,7 +26,7 @@ module ActiveModel
 
     private
       def events
-        self._events
+        @events ||= Events.new self._events
       end
 
       def record

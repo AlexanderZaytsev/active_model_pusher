@@ -9,7 +9,7 @@ module ActiveModel
         end
 
         def to_s
-          "#{record} cannot be serialized."
+          "#{@record} cannot be serialized."
         end
       end
 
