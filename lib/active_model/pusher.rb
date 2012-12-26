@@ -21,7 +21,7 @@ module ActiveModel
 
       events.validate! event
 
-      ::Pusher.trigger channel(event), event(event), data, socket_id
+      ::Pusher.trigger channel(event), event(event), data, { socket_id: socket_id }
     end
 
     private
