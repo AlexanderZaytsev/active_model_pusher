@@ -1,4 +1,4 @@
-# Active Model Pusher [![Build Status](https://travis-ci.org/AlexanderZaytsev/active_model_pusher.png?branch=master)](https://travis-ci.org/AlexanderZaytsev/active_model_pusher)
+# Active Model Pusher [![Build Status](https://travis-ci.org/AlexanderZaytsev/active_model_pusher.png?branch=master)](https://travis-ci.org/AlexanderZaytsev/active_model_pusher) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/AlexanderZaytsev/active_model_pusher)
 
 `ActiveModel::Pusher` makes using [Pusher](https://github.com/pusher/pusher-gem) in your app much easier.
 The gem allows you not to care about naming channels, events and serializing records. `ActiveModel::Pusher` will do it for you!
